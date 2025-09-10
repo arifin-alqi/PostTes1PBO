@@ -1,0 +1,156 @@
+package com.mycompany.posttes1;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+    int id;
+    String tipe;
+    int luas;
+    int hargaSewa;
+    int hargaJual;
+    String status;
+
+    public Main(int id, String tipe, int luas, int hargaSewa, int hargaJual, String status) {
+        this.id = id;
+        this.tipe = tipe;
+        this.luas = luas;
+        this.hargaJual = hargaJual;
+        this.hargaSewa = hargaSewa;
+        this.status = status;
+    }
+
+    public void tampilkanInfo() {
+        System.out.println("====================================");
+        System.out.println("    ID Unit        : " + id);
+        System.out.println("    Tipe Unit      : " + tipe);
+        System.out.println("    Luas Unit      : " + luas + " m2");
+        System.out.println("    Harga Sewa Unit: Rp " + hargaSewa + " Juta");
+        System.out.println("    Harga Jual Unit: Rp " + hargaJual + " Juta");
+        System.out.println("    Status Unit    : " + status);
+        System.out.println("=====================================");
+    }
+
+    // daftar unit apartemen
+    static ArrayList<Main> daftarUnit = new ArrayList<>();
+
+    // menampilkan semua unit
+    public static void tampilkanDaftarUnit() {
+        if (daftarUnit.isEmpty()) {
+            System.out.println("Belum ada unit apartemen.");
+        } else {
+            System.out.println("\nDaftar Unit Apartemen:");
+            for (Main unit : daftarUnit) {
+                unit.tampilkanInfo();
+            }
+        }
+    }
+
+    // update status unit
+    public static void updateStatusUnit(int id, String statusBaru) {
+        for (Main unit : daftarUnit) {
+            if (unit.id == id) {
+                unit.status = statusBaru;
+                System.out.println("\nStatus unit dengan ID " + id + " berhasil diupdate.");
+                return;
+            }
+        }
+        System.out.println("\nUnit dengan ID " + id + " tidak ditemukan.");
+    }
+    
+    public static void tekanEnter(Scanner input) {
+        System.out.println("\nTekan ENTER untuk lanjut...");
+        input.nextLine();
+    }
+
+    public static void main(String[] args) {
+        // data awal
+        daftarUnit.add(new Main(1, "Single", 30,2, 300, "Tersedia"));
+        daftarUnit.add(new Main(2, "Twin", 45,3, 370, "Tersedia"));
+        daftarUnit.add(new Main(3, "Double", 70,4, 450, "Disewa"));
+        daftarUnit.add(new Main(4, "Twin", 50, 3, 390, "Tersedia"));
+
+        Scanner input = new Scanner(System.in);
+        int pilihan = 0;
+
+        do {
+            System.out.println("\n=== Sistem Apartemen ===");
+            System.out.println("1. Tambah Unit");
+            System.out.println("2. Lihat Daftar Unit");
+            System.out.println("3. Ubah Status Unit");
+            System.out.println("4. Hapus Unit");
+            System.out.println("5. Keluar");
+            System.out.print("Pilih menu: ");
+            String pilihStr = input.nextLine();
+
+            try {
+                pilihan = Integer.parseInt(pilihStr);
+            } catch (NumberFormatException e) {
+                pilihan = -1;
+            }
+
+            switch (pilihan) {
+                case 1:
+                    System.out.print("Masukkan ID Unit: ");
+                    int id = Integer.parseInt(input.nextLine());
+                    System.out.print("Masukkan Tipe Unit: ");
+                    String tipe = input.nextLine();
+                    System.out.print("Masukkan Luas Unit (m2): ");
+                    int luas = Integer.parseInt(input.nextLine());
+                    System.out.print("Masukkan Harga Sewa Unit: ");
+                    int hargaSewa = Integer.parseInt(input.nextLine());
+                    System.out.print("Masukkan Harga Jual Unit: ");
+                    int hargaJual = Integer.parseInt(input.nextLine());
+
+                    daftarUnit.add(new Main(id, tipe, luas, hargaSewa, hargaJual, "Tersedia"));
+                    System.out.println("Unit berhasil ditambahkan!");
+                    break;
+
+                case 2:
+                    tampilkanDaftarUnit();
+                    tekanEnter(input); 
+                    break;
+
+                case 3:
+                    tampilkanDaftarUnit();
+                    System.out.print("Masukkan ID Unit yang ingin diupdate: ");
+                    int idUpdate = Integer.parseInt(input.nextLine());
+                    System.out.print("Masukkan status baru (Tersedia/Disewa/Terjual): ");
+                    String statusBaru = input.nextLine();
+                    updateStatusUnit(idUpdate, statusBaru);
+                    break;
+
+                case 4:
+                    tampilkanDaftarUnit();
+                    System.out.print("Masukkan ID Unit yang ingin dihapus: ");
+                    int idDelete = Integer.parseInt(input.nextLine());
+
+                    Main unitHapus = null;
+                    for (Main unit : daftarUnit) {
+                        if (unit.id == idDelete) {
+                            unitHapus = unit;
+                            break;
+                        }
+                    }
+
+                    if (unitHapus != null) {
+                        daftarUnit.remove(unitHapus);
+                        System.out.println("Unit berhasil dihapus!");
+                    } else {
+                        System.out.println("Unit dengan ID tersebut tidak ditemukan.");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Keluar dari sistem. Terima kasih!");
+                    break;
+
+                default:
+                    System.out.println("Pilihan tidak valid, coba lagi!");
+            }
+        } while (pilihan != 5);
+
+        input.close();
+    }
+}
+ 
