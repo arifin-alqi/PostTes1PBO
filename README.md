@@ -1,5 +1,11 @@
 # PostTest PBO 1
 
+Nama  :Muhammad Arifin Alqi. AB
+
+NIM   :2409116106
+
+Kelas  C 2024
+
 # **Manajemen penyewaan/pembelian apartemen**
 ## 1. Konsep Program
   Disini saya membawa tema "manajemen penyewaan/pembelian apartemen", yang menggunakan sistem CRUD yaitu:
